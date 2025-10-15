@@ -1,6 +1,9 @@
 import { Button, Col, Container, Row } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+
+  const navegar = useNavigate()
   return (
     <div>
       <div>
@@ -25,7 +28,7 @@ export default function Home() {
             </Col>
 
             <div className="mb-4">
-              <Button>Ingresar</Button>
+              <Button onClick={() => navegar('/login')}>Ingresar</Button>
             </div>
 
             <div className="d-flex flex-column flex-md-row align-items-center justify-content-center gap-3 mt-8">
