@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button, Table } from "react-bootstrap";
 import toast from "react-hot-toast";
-import { actualizarEstadoEquipo, getEquiposReservas, reservaEquipo } from "../services/alquilerEquipo";
+import { actualizarEstadoEquipo, getEquiposReservas, reservaEquipo, existeReservaEquipoEnDia, existeReservaUsuarioEnDia } from "../services/alquilerEquipo";
 import { useAuth } from "../context/AuthContext";
 
 
@@ -31,6 +31,24 @@ export default function ReservaEquipo() {
         }
 
         try {
+            const ahora = new Date()
+            const inicioDia = new Date(Date.UTC(ahora.getUTCFullYear(), ahora.getUTCMonth(), ahora.getUTCDate(), 0, 0, 0))
+            const finDia = new Date(Date.UTC(ahora.getUTCFullYear(), ahora.getUTCMonth(), ahora.getUTCDate() + 1, 0, 0, 0))
+            const inicioDiaISO = inicioDia.toISOString()
+            const finDiaISO = finDia.toISOString()
+
+            const existeParaEquipo = await existeReservaEquipoEnDia(equipitos.id, inicioDiaISO, finDiaISO)
+            if (existeParaEquipo) {
+                toast.error('Este equipo ya tiene una reserva para hoy')
+                return
+            }
+
+            const existeParaUsuario = await existeReservaUsuarioEnDia(user.id, inicioDiaISO, finDiaISO)
+            if (existeParaUsuario) {
+                toast.error('Ya tienes una reserva activa para hoy')
+                return
+            }
+
             await reservaEquipo({
                 user_id: user.id,
                 equipo_id: equipitos.id,
@@ -45,9 +63,10 @@ export default function ReservaEquipo() {
     }
 
   return (
-    <div className="my-4">
+    <div className="my-4 d-flex justify-content-center">
+     <div style={{maxWidth:'900px', width:'100%'}}> 
      <h1>Reservacion de equipos</h1> 
-     <Table striped bordered hover> 
+     <Table size="sm" responsive striped bordered hover> 
         <thead>
             <tr>
                 <th>Codigo del Equipo</th>
@@ -80,6 +99,7 @@ export default function ReservaEquipo() {
         </tbody>
 
      </Table>
+     </div>
     </div>
   )
 }

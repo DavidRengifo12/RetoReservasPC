@@ -5,11 +5,13 @@ import NavbarR from "./components/NavbarR";
 import { Authprovider, useAuth } from "./context/AuthContext";
 import ToastProvider from "./components/ToastProvider";
 import CrearEquipo from "./Admin/CrearEquipo";
-<<<<<<< HEAD
 import LandingPage from "./components/LandingPage";
-=======
 import ReservaEquipo from "./user/ReservaEquipo";
->>>>>>> 48bd898ca7c982820293fcee96f182c8bf0e64ff
+import MisReservas from "./user/MisReservas";
+import ChatUsuario from "./user/ChatUsuario";
+import ChatAdmin from "./Admin/ChatAdmin";
+import AdminLayout from "./Admin/AdminLayout";
+import GestionEquipos from "./Admin/GestionEquipos";
 
 
 const Rutas =() => { //PROTEGER LAS RUTAS CON AUTHCONTEXT
@@ -34,14 +36,19 @@ const RutasWeb = () => {
       <Route path="register" element={<Register />} />
 
       {/*Rutas Administrador */}
-      <Route path="/dash-admin" element={isAuthenticated && user.rol === "administrador" ? <NavbarR />: <Navigate to= '/' />}>
-         <Route path="equipo-computo" element={<CrearEquipo />} />
+      <Route path="/dash-admin" element={isAuthenticated && user.rol === "administrador" ? <AdminLayout />: <Navigate to= '/' />}>
+         <Route index element={<Navigate to="equipo-computo" replace />} />
+         <Route path="equipo-computo" element={<GestionEquipos />} />
+         <Route path="chat" element={<ChatAdmin />} />
         {/*<Route path="equipos-reservados" element={} /> */}
       </Route>
 
       {/*Rutas Usuario */}
       <Route path="/dash-user" element={isAuthenticated && user.rol === 'usuario' ? <NavbarR /> : <Navigate to='/login' />}>
+        <Route index element={<Navigate to="reserva-equipo" replace />} />
         <Route path="reserva-equipo" element={<ReservaEquipo />} />
+        <Route path="mis-reservas" element={<MisReservas />} />
+        <Route path="chat" element={<ChatUsuario />} />
       </Route>
 
 

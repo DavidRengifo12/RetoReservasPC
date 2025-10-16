@@ -10,7 +10,8 @@ export default function EditarEquipo({ show, onHide, equipo, isAdmin = false, on
     codigo_equipo: "",
     nombre_equipo: "",
     marca_equipo: "",
-    estado: true
+    estado: true,
+    precio_equipo: ""
   });
 
 
@@ -26,7 +27,11 @@ export default function EditarEquipo({ show, onHide, equipo, isAdmin = false, on
   const handleUpdateEquipos = async () => {
     if(!equipo) return
     try {
-        const actualizarEquipos = await updateEquipos(equipo.id, formData)
+        const payload = {
+          ...formData,
+          precio_equipo: formData.precio_equipo === "" ? null : parseInt(formData.precio_equipo, 10)
+        }
+        const actualizarEquipos = await updateEquipos(equipo.id, payload)
         onSave(actualizarEquipos)
         onHide()
         toast.success('Equipo actualizado correctamente')
@@ -88,6 +93,19 @@ export default function EditarEquipo({ show, onHide, equipo, isAdmin = false, on
               name="marca_equipo"
               value={formData.marca_equipo}
               onChange={handleSaveCambios}
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3">
+            <Form.Label>Precio (entero)</Form.Label>
+            <Form.Control
+              type="number"
+              inputMode="numeric"
+              name="precio_equipo"
+              value={formData.precio_equipo}
+              onChange={handleSaveCambios}
+              min={0}
+              step={1}
             />
           </Form.Group>
         </Form>
