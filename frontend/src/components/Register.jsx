@@ -112,7 +112,7 @@ export default function Register() { //REAJUSTAR ESTILOS
                   </Form.Select>
                 </Form.Group> */}
                  <div className='d-flex justify-content-center' style={{width: "350px"}}>
-                  <Button type='submit'>Registrarme</Button>
+                  <Button type='submit' variant='success'>Registrarme</Button>
                 </div>
                 </Form>
                 <div className='text-center mb-2'>

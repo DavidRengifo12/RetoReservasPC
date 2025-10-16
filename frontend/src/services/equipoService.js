@@ -1,8 +1,10 @@
 import supabase from "../Supabase"
 
+
+//ver los equipos de computo
 export const getEquiposComputo = async () => {
     const {data, error} = await supabase
-    .from('equiposComputo')
+    .from('equiposcomputo')
     .select('*')
     .order('nombre_equipo')
 
@@ -10,15 +12,12 @@ export const getEquiposComputo = async () => {
     return data 
 }
 
+
+//Crear un equipo de computo nuevo
 export const postEquiposNuevos = async(newEquipo) => {
     const {data, error} = await supabase
     .from('equiposcomputo')
-    .insert([{
-      codigo_equipo: newEquipo.codigo_equipo,
-      nombre_equipo: newEquipo.nombre_equipo,
-      marca_equipo: newEquipo.marca_equipo,
-      estado: newEquipo.estado ?? true
-    }])
+    .insert([newEquipo])
     .select()
     .single()
 
@@ -26,9 +25,11 @@ export const postEquiposNuevos = async(newEquipo) => {
     return data
 }
 
+
+//Actualizar los equipos de computo
 export const updateEquipos = async (id, updates ) => {
     const {data, error} = await supabase
-    .from('equiposComputo')
+    .from('equiposcomputo')
     .update(updates)
     .eq('id', id)
     .select()
@@ -37,10 +38,10 @@ export const updateEquipos = async (id, updates ) => {
     return data
 }
 
-
+//Eliminar los equipos de computo
 export const deleteEquipos = async (id) => {
     const {data, error} = await supabase
-    .from('equiposComputo')
+    .from('equiposcomputo')
     .delete()
     .eq('id', id)
 
