@@ -81,7 +81,7 @@ export default function Login() { //REAJUSTAR ESTILOS
                             </Form.Group>
 
                             <div className="d-grid justify-content-center mt-2" style={{width:'350px'}}>
-                                <Button type="submit">Login</Button>
+                                <Button type="submit" variant='success'>Login</Button>
                             </div>
                             
                         </Form>

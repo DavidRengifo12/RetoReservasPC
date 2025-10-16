@@ -5,7 +5,11 @@ import NavbarR from "./components/NavbarR";
 import { Authprovider, useAuth } from "./context/AuthContext";
 import ToastProvider from "./components/ToastProvider";
 import CrearEquipo from "./Admin/CrearEquipo";
+<<<<<<< HEAD
 import LandingPage from "./components/LandingPage";
+=======
+import ReservaEquipo from "./user/ReservaEquipo";
+>>>>>>> 48bd898ca7c982820293fcee96f182c8bf0e64ff
 
 
 const Rutas =() => { //PROTEGER LAS RUTAS CON AUTHCONTEXT
@@ -37,7 +41,7 @@ const RutasWeb = () => {
 
       {/*Rutas Usuario */}
       <Route path="/dash-user" element={isAuthenticated && user.rol === 'usuario' ? <NavbarR /> : <Navigate to='/login' />}>
-        
+        <Route path="reserva-equipo" element={<ReservaEquipo />} />
       </Route>
 
 

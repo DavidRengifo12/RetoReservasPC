@@ -13,14 +13,14 @@ export default function NavbarR() {// REAJUSTAR ESTILOS
     const handleLogout = async (e) => {
         e.preventDefault()
         logout()
-        navigar('/') //Va la navgeacion a donde me dirije a la hora de cerrar sesion
+        navigar('/') 
     }
  
   return (
     <>
       <div>
         <header className='bg-secondary'>
-            <Navbar expand="lg" fixed= "top" className="p-4 bg-primary">
+            <Navbar expand="lg" fixed= "top" className="p-4 bg-success">
                 <Navbar.Brand className='text-white'><h2>Equipos Computo</h2></Navbar.Brand>
                 <Navbar.Toggle arial-controls="basic-navbar-nav"></Navbar.Toggle>
 
@@ -29,7 +29,7 @@ export default function NavbarR() {// REAJUSTAR ESTILOS
                         {
                             user?.rol === 'usuario' && (
                                 <>
-                                    <Nav.Link as={Link} to='/dash-user/alquilar-equipo' className="text-white fw-bold">Alquilar Equipos</Nav.Link>
+                                    <Nav.Link as={Link} to='/dash-user/reserva-equipo' className="text-white fw-bold">Alquilar Equipos</Nav.Link>
                                 </>
                             )
                         }    

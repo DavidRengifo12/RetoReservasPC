@@ -1,24 +1,43 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, Col, Container, Form, Row } from "react-bootstrap";
 import toast from "react-hot-toast";
-import { postEquiposNuevos } from "../services/equipoService";
+import { getEquiposComputo, postEquiposNuevos } from "../services/equipoService";
+import VerEquipo from "./VerEquipo";
 
 
 export default function CrearEquipo() {
-    const [codeEquipo, setCodeEquipo] = useState("")
-    const [nombreEquipo, setNombreEquipo] = useState("")
-    const [marcaEquipo, setMarcaEquipo] = useState("")
+    const [codigo_equipo, setCodeEquipo] = useState("")
+    const [nombre_equipo, setNombreEquipo] = useState("")
+    const [marca_equipo, setMarcaEquipo] = useState("")
+
+    const [equipos, setEquipos] = useState([])
+
+    
+    const obtenerEquipos = async () => {
+        try {
+            const dataEquipos = await getEquiposComputo()
+            setEquipos(dataEquipos)
+        } catch (error) {
+            console.log('Error al obtener los Equipos',error)
+        }
+    }
+        
+    useEffect(() => {
+        obtenerEquipos()
+    }, [])
 
 
     const handelNewEquipo = async (e) => {
         e.preventDefault()
         try {
             const dataEquiposComputo = await postEquiposNuevos({
-                codeEquipo,
-                nombreEquipo,
-                marcaEquipo
+                codigo_equipo,
+                nombre_equipo,
+                marca_equipo
             })
             console.log(dataEquiposComputo)
+
+            setEquipos(prev => ([...prev, dataEquiposComputo]))
 
             setCodeEquipo("")
             setNombreEquipo("")
@@ -47,20 +66,22 @@ export default function CrearEquipo() {
                                     <Form.Control 
                                     type="text"
                                     placeholder="Codigo serial del equipo"
-                                    value={codeEquipo}
+                                    value={codigo_equipo}
                                     onChange={(e) => setCodeEquipo(e.target.value)}
+                                    required
                                     />
                                 </Form.Group>
                             </Row>
 
                             <Row className="mb-3 g-3">
                                 <Form.Group>
-                                    <Form.Label>Nombre Equipo Computo</Form.Label>
+                                    <Form.Label>Tipo Equipo Computo</Form.Label>
                                     <Form.Control 
                                     type="text"
-                                    placeholder="Nombre equipo computo"
-                                    value={nombreEquipo}
+                                    placeholder="Tipo de equipo ej: Tv, Celular, Pc"
+                                    value={nombre_equipo}
                                     onChange={(e) => setNombreEquipo(e.target.value)}
+                                    required
                                     />
                                 </Form.Group>
                             </Row>
@@ -70,16 +91,22 @@ export default function CrearEquipo() {
                                     <Form.Label>Marca Equipo Computo</Form.Label>
                                     <Form.Control 
                                     type="text"
-                                    placeholder="Codigo serial del equipo"
-                                    value={marcaEquipo}
+                                    placeholder="Marca del equipo, ej: Dell, Hp, Lenovo"
+                                    value={marca_equipo}
                                     onChange={(e) => setMarcaEquipo(e.target.value)}
+                                    required
                                     />
                                 </Form.Group>
                             </Row>
                             <div className="d-flex justify-content-center">
-                                <Button type="submit">New Equipo</Button>    
+                                <Button type="submit" variant="success">New Equipo</Button>    
                             </div>
                         </Form>
+                    </div>
+                </Col>
+                <Col>
+                    <div>
+                        <VerEquipo equipo={equipos} onUpdate={obtenerEquipos}/>
                     </div>
                 </Col>
             </Row>
