@@ -1,11 +1,11 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
-import Home from "./Home";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import NavbarR from "./components/NavbarR";
 import { Authprovider, useAuth } from "./context/AuthContext";
 import ToastProvider from "./components/ToastProvider";
 import CrearEquipo from "./Admin/CrearEquipo";
+import LandingPage from "./components/LandingPage";
 
 
 const Rutas =() => { //PROTEGER LAS RUTAS CON AUTHCONTEXT
@@ -25,9 +25,9 @@ const RutasWeb = () => {
   const {isAuthenticated, user} = useAuth()
   return(
     <Routes>
+      <Route path="/" element={<LandingPage />} />
       <Route path="login" element={<Login />} />
       <Route path="register" element={<Register />} />
-      <Route path="/" element={<Home />} />
 
       {/*Rutas Administrador */}
       <Route path="/dash-admin" element={isAuthenticated && user.rol === "administrador" ? <NavbarR />: <Navigate to= '/' />}>
